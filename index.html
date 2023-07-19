@@ -20,6 +20,8 @@
 
         .image-container {
             position: relative;
+            max-width: 100%;
+            max-height: 100%;
         }
 
         .image {
@@ -38,6 +40,13 @@
             bottom: 10px;
             left: 50%;
             transform: translateX(-50%);
+        }
+
+        @media screen and (max-width: 768px) {
+            /* Hide slider on mobile */
+            #slider {
+                display: none;
+            }
         }
     </style>
 </head>
