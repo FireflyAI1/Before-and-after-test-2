@@ -28,6 +28,11 @@
         #slider {
             width: 80%;
             margin: 20px auto;
+            opacity: 0.7;
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
         }
     </style>
 </head>
@@ -36,7 +41,7 @@
         <img src="Right Houlton School after.jpg" id="image" alt="Interactive Image">
     </div>
 
-    <input type="range" id="slider" min="1" max="3" step="1" value="1">
+    <input type="range" id="slider" min="0" max="1" step="0.01" value="0">
 
     <script src="https://cdn.jsdelivr.net/npm/gyronorm/dist/gyronorm.complete.min.js"></script>
     <script>
@@ -46,35 +51,21 @@
         image.src = "Right Houlton School after.jpg"; // Replace with the path to your initial image
 
         function updateImage() {
-            var value = parseInt(slider.value); // Get the value of the slider (1, 2, or 3)
+            var value = parseFloat(slider.value); // Get the value of the slider (between 0 and 1)
 
-            // Update the image source based on the slider value
-            // Customize this part according to your image set
-            if (value === 1) {
-                image.style.opacity = 0; // Fade out the current image
-                setTimeout(function () {
-                    image.src = "Left Houlton School before.jpg"; // Replace with the path to image1
-                    image.style.opacity = 1; // Fade in the new image
-                }, 500); // Delay the change to match the transition duration
-            } else if (value === 2) {
-                image.style.opacity = 0; // Fade out the current image
-                setTimeout(function () {
-                    image.src = "Right Houlton School after.jpg"; // Replace with the path to image2
-                    image.style.opacity = 1; // Fade in the new image
-                }, 500); // Delay the change to match the transition duration
-            } else if (value === 3) {
-                image.style.opacity = 0; // Fade out the current image
-                setTimeout(function () {
-                    image.src = "Right Houlton School after.jpg"; // Replace with the path to image3
-                    image.style.opacity = 1; // Fade in the new image
-                }, 500); // Delay the change to match the transition duration
-            }
+            // Calculate the opacity for each image based on the slider value
+            var opacity1 = 1 - value;
+            var opacity2 = value;
+
+            // Set the opacity of each image accordingly
+            image.style.opacity = opacity1;
+            image2.style.opacity = opacity2;
         }
 
-        // Event listener to update the image when the slider value changes
+        // Event listener to update the images when the slider value changes
         slider.addEventListener("input", updateImage);
 
-        // Initialize the image based on the default slider value
+        // Initialize the images based on the default slider value
         updateImage();
 
         // Check if the device is a mobile or desktop device
@@ -105,6 +96,9 @@
                     console.log("DeviceOrientationEvent not supported.");
                 }
             });
+        } else {
+            // Hide the slider for desktop view
+            slider.style.display = "none";
         }
     </script>
 </body>
