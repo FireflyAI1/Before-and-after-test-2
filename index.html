@@ -58,7 +58,7 @@
         </div>
     </div>
 
-    <input type="range" id="slider" min="0" max="1" step="0.01">
+    <input type="range" id="slider" min="1" max="3" step="1" value="1">
 
     <script src="https://cdn.jsdelivr.net/npm/gyronorm/dist/gyronorm.complete.min.js"></script>
     <script>
@@ -68,18 +68,24 @@
         var currentImageIndex = 0;
 
         function updateImage() {
-            var value = parseFloat(slider.value); // Get the value of the slider (between 0 and 1)
+            var value = parseInt(slider.value); // Get the value of the slider (1, 2, or 3)
 
-            // Calculate the opacity for each image based on the slider value
-            var opacity1 = 1 - value;
-            var opacity2 = value;
+            // Update the image source based on the slider value
+            // Customize this part according to your image set
+            if (value === 1) {
+                currentImageIndex = 0;
+            } else if (value === 2) {
+                currentImageIndex = 1;
+            } else if (value === 3) {
+                currentImageIndex = 1;
+            }
 
-            // Set the opacity of each image accordingly
-            images[0].style.opacity = opacity1;
-            images[1].style.opacity = opacity2;
+            // Show only the currently selected image
+            images[0].style.opacity = currentImageIndex === 0 ? 1 : 0;
+            images[1].style.opacity = currentImageIndex === 1 ? 1 : 0;
         }
 
-        // Event listener to update the images when the slider value changes
+        // Event listener to update the image when the slider value changes
         slider.addEventListener("input", updateImage);
 
         // Initialize the images based on the default slider value
@@ -117,9 +123,6 @@
                     console.log("DeviceOrientationEvent not supported.");
                 }
             });
-        } else {
-            // Hide the slider for desktop view
-            slider.style.display = "none";
         }
     </script>
 </body>
