@@ -18,9 +18,14 @@
             background-color: #2ecc71; /* Green shade (change the color code to your preferred green) */
         }
 
-        #image {
+        .image-container {
+            position: relative;
+        }
+
+        .image {
             max-width: 100%;
             max-height: 100%;
+            position: absolute;
             opacity: 1;
             transition: opacity 0.5s ease; /* Add transition for smooth fade effect */
         }
@@ -38,7 +43,10 @@
 </head>
 <body>
     <div id="container">
-        <img src="Right Houlton School after.jpg" id="image" alt="Interactive Image">
+        <div class="image-container">
+            <img src="Left Houlton School before.jpg" class="image" alt="Interactive Image">
+            <img src="Right Houlton School after.jpg" class="image" alt="Interactive Image">
+        </div>
     </div>
 
     <input type="range" id="slider" min="0" max="1" step="0.01" value="0">
@@ -46,9 +54,9 @@
     <script src="https://cdn.jsdelivr.net/npm/gyronorm/dist/gyronorm.complete.min.js"></script>
     <script>
         // Set the initial image source before the gyronorm library is initialized
-        var image = document.getElementById("image");
+        var images = document.querySelectorAll(".image");
         var slider = document.getElementById("slider");
-        image.src = "Right Houlton School after.jpg"; // Replace with the path to your initial image
+        var currentImageIndex = 0;
 
         function updateImage() {
             var value = parseFloat(slider.value); // Get the value of the slider (between 0 and 1)
@@ -58,8 +66,8 @@
             var opacity2 = value;
 
             // Set the opacity of each image accordingly
-            image.style.opacity = opacity1;
-            image2.style.opacity = opacity2;
+            images[0].style.opacity = opacity1;
+            images[1].style.opacity = opacity2;
         }
 
         // Event listener to update the images when the slider value changes
@@ -84,10 +92,14 @@
                             // Adjust the image source based on the tilt value
                             // Customize this part according to your image set
                             if (Math.abs(gamma) > 30) {
-                                image.src = "Right Houlton School after.jpg"; // Replace with the path to image1
+                                currentImageIndex = 1;
                             } else {
-                                image.src = "Left Houlton School before.jpg"; // Replace with the path to your initial image
+                                currentImageIndex = 0;
                             }
+
+                            // Show only the currently selected image
+                            images[0].style.opacity = currentImageIndex === 0 ? 1 : 0;
+                            images[1].style.opacity = currentImageIndex === 1 ? 1 : 0;
                         });
                     }).catch(function (e) {
                         console.log("GyroNorm not supported or not enabled.", e);
